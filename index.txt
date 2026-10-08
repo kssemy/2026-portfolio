@@ -1,0 +1,218 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1b00ff">
+<title>2026 인사평가 — 웹디자인 권세미</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+
+<style>
+:root {
+  --blue: #1b00ff;
+  --ink: #171717;
+  --muted: #999;
+  --line: #eaeaea;
+  --side: clamp(24px, 2.345vw, 64px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #fff;
+  color: var(--ink);
+  font-family: "Pretendard", Arial, sans-serif;
+  letter-spacing: -0.08em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--side);
+}
+
+/* HEADER */
+
+header {
+  padding-top: 20px;
+}
+
+.logo {
+  font: italic 400 25px/1.2 Georgia, serif;
+  letter-spacing: -1px;
+  color: var(--blue);
+}
+
+/* MAIN */
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.intro {
+  padding: 70px 0 90px;
+  animation: appear .85s ease both;
+}
+
+.kicker {
+  color: var(--blue);
+  font-size: 10px;
+  letter-spacing: .03em;
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.08em;
+  line-height: 1.4;
+}
+
+.person {
+  margin-top: 6px;
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: -0.08em;
+  line-height: 1.5;
+}
+
+.person strong {
+  color: var(--blue);
+  font-weight: 500;
+  margin-left: 7px;
+}
+
+.sub {
+  margin-top: 30px;
+  font-size: 10px;
+  letter-spacing: .01em;
+  color: var(--muted);
+}
+
+/* FOOTER */
+
+footer {
+  min-height: 74px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+footer span:last-child {
+  color: var(--blue);
+}
+
+/* ANIMATION */
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 23px;
+  }
+
+  .intro {
+    padding: 65px 0;
+  }
+
+  .kicker {
+    font-size: 9px;
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 23px;
+  }
+
+  .person {
+    font-size: 18px;
+  }
+
+  .sub {
+    font-size: 9px;
+    margin-top: 26px;
+  }
+
+  footer {
+    min-height: 65px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    animation: none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Archive.Portfolio</div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section class="intro">
+
+      <div class="kicker">
+        ✳ &nbsp; PERSONAL ARCHIVE / 2026
+      </div>
+
+      <h1 class="title">2026 인사평가</h1>
+
+      <div class="person">
+        웹디자인 <strong>권세미</strong>
+      </div>
+
+      <div class="sub">
+        WEB DESIGN · PERFORMANCE REVIEW
+      </div>
+
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>INDONG FN / E-BIZ</span>
+    <span>© 2026 KWON SEMI</span>
+  </footer>
+
+</div>
+</body>
+</html>
