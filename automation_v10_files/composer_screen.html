@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Detail Page Composer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:#0e0e10; --s1:#161618; --s2:#1e1e21; --s3:#26262a;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#f0f0f2; --muted:#6e6e78; --muted2:#9898a4;
+  --accent:#f472b6; --accent2:#f9a8d4; --accent-dim:rgba(244,114,182,0.12);
+  --success:#4ecb8d; --danger:#f07070; --r:12px; --r-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.app-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(14,14,16,0.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.app-title{font-size:15px;font-weight:600;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;}
+.app-title .hl{color:var(--accent);}
+.ab-badge{font-size:10px;background:var(--accent-dim);color:var(--accent);border-radius:4px;padding:2px 8px;font-weight:500;}
+.version{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+
+/* LAYOUT — 좌우 2단 */
+.layout{flex:1;display:grid;grid-template-columns:440px 1fr;min-height:0;overflow:hidden;}
+
+/* LEFT */
+.panel-left{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
+.left-inner{padding:20px;display:flex;flex-direction:column;gap:10px;}
+
+/* STEP BLOCKS */
+.step{border-radius:var(--r);border:1px solid var(--border);overflow:hidden;transition:border-color .2s;}
+.step:focus-within{border-color:var(--border2);}
+.step-header{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--s1);cursor:pointer;user-select:none;}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--s3);color:var(--muted2);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step.active .step-num{background:var(--accent);color:#fff;}
+.step-title{font-size:13px;font-weight:500;flex:1;}
+.step-badge{font-size:11px;color:var(--muted);background:var(--s3);padding:2px 8px;border-radius:20px;}
+.step-body{padding:16px;background:var(--s2);border-top:1px solid var(--border);}
+
+/* INPUTS */
+input[type=text],input[type=url],input[type=number]{
+  width:100%;background:var(--s3);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 13px;outline:none;transition:border-color .2s;
+}
+select{width:100%;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 13px;outline:none;}
+input:focus{border-color:rgba(244,114,182,0.4);}
+input::placeholder{color:var(--muted);}
+.color-picker{display:flex;align-items:center;gap:14px;min-height:32px;flex-wrap:wrap;}
+.color-chips{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.color-chip{width:20px;height:20px;padding:0;border:1px solid rgba(255,255,255,.32);border-radius:3px;cursor:pointer;box-shadow:0 0 0 1px rgba(0,0,0,.22);transition:transform .12s,outline-color .12s;}
+.color-chip:hover{transform:scale(1.12);}
+.color-chip.selected{outline:2px solid var(--accent);outline-offset:3px;}
+.color-chip:disabled{opacity:.45;cursor:wait;}
+.color-name{font-size:11px;color:var(--text);white-space:nowrap;}
+
+/* SPLIT ROW */
+.split-row{display:flex;align-items:center;gap:10px;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 13px;}
+.split-label{font-size:12px;color:var(--muted2);flex:1;}
+.split-input{width:76px !important;padding:5px 9px !important;text-align:right;}
+.split-unit{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+
+/* URL ROWS */
+.url-rows{display:flex;flex-direction:column;gap:6px;}
+.url-row{display:flex;align-items:center;gap:8px;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;transition:border-color .15s;}
+.url-row:focus-within{border-color:var(--border2);}
+.url-row.has-url{border-color:rgba(244,114,182,0.3);background:rgba(244,114,182,0.04);}
+.url-tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--accent);min-width:32px;flex-shrink:0;}
+.url-input{flex:1;background:transparent;border:none;outline:none;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);padding:0;}
+.url-input::placeholder{color:var(--muted);}
+.url-dot{width:6px;height:6px;border-radius:50%;background:var(--s1);flex-shrink:0;transition:background .2s;}
+.url-row.has-url .url-dot{background:var(--accent);}
+
+/* FOLDER ROW */
+.folder-row{display:flex;align-items:center;gap:8px;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 12px;transition:border-color .15s;}
+.folder-row:focus-within{border-color:var(--border2);}
+.folder-row.has-path{border-color:rgba(244,114,182,0.3);background:rgba(244,114,182,0.04);}
+.folder-input{flex:1;background:transparent;border:none;outline:none;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);padding:0;}
+.folder-input::placeholder{color:var(--muted);}
+.folder-dot{width:6px;height:6px;border-radius:50%;background:var(--s1);flex-shrink:0;transition:background .2s;}
+.folder-row.has-path .folder-dot{background:var(--accent);}
+.field-hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6;}
+
+/* BUTTONS */
+.btn{background:var(--accent);border:none;border-radius:var(--r-sm);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 20px;transition:opacity .15s,transform .1s;white-space:nowrap;}
+.btn:hover{opacity:.88;}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.3;cursor:not-allowed;}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2);font-weight:400;}
+.btn-ghost:hover{background:var(--s3);color:var(--text);}
+.btn-danger{background:transparent;border:1px solid rgba(240,112,112,0.3);color:var(--danger);font-weight:400;}
+.btn-danger:hover{background:rgba(240,112,112,0.08);}
+.btn-sm{padding:7px 13px;font-size:12px;}
+.btn-full{width:100%;padding:14px;font-size:14px;border-radius:var(--r);}
+
+/* INFO BOX */
+.info-box{background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;}
+.info-row{display:flex;gap:8px;font-size:11px;color:var(--muted);line-height:1.7;}
+.info-row+.info-row{margin-top:2px;}
+.info-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:16px;}
+
+/* RIGHT */
+.panel-right{padding:24px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;background:var(--s1);}
+.preview-header{display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.preview-label{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);}
+.btn-download{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(244,114,182,0.25);border-radius:6px;cursor:pointer;transition:all .15s;text-decoration:none;display:none;}
+.btn-download:hover{background:rgba(244,114,182,0.2);}
+.btn-download.visible{display:inline-block;}
+.preview-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;min-height:400px;}
+.preview-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;height:400px;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;text-align:center;}
+.preview-empty-icon{font-size:28px;opacity:.2;}
+#previewCanvas{max-width:100%;border-radius:var(--r-sm);display:none;border:1px solid var(--border);}
+.progress-wrap{width:100%;background:var(--s3);border-radius:3px;height:3px;overflow:hidden;display:none;}
+.progress-bar{height:100%;background:var(--accent);width:0%;transition:width .3s;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 18px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;z-index:200;}
+.toast.show{opacity:1;}
+.toast.ok{border-color:rgba(244,114,182,0.4);color:var(--accent);}
+.toast.err{border-color:rgba(240,112,112,0.4);color:var(--danger);}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-title">
+    <span class="hl">✦</span> 상세페이지 <span class="hl">컴포저</span>
+    <span class="ab-badge">Detail Page</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="version">v2.0.0</span>
+    <button disabled class="btn btn-sm btn-danger">↺ 초기화</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="panel-left">
+    <div class="left-inner">
+
+      <!-- STEP 1 -->
+      <div class="step active" id="step1">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">템플릿 URL</div>
+        </div>
+        <div class="step-body">
+          <div class="url-rows">
+            <div class="url-row" id="rowTpl">
+              <span class="url-tag">TPL</span>
+              <input disabled class="url-input" id="urlTpl" type="text" placeholder="템플릿 이미지 URL"/>
+              <div class="url-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 자동 추출 -->
+      <div class="step active" id="step_extract">
+        <div class="step-header">
+          <div class="step-num" style="background:var(--accent);color:#fff;">✦</div>
+          <div class="step-title">상품 URL로 모델컷 자동 추출</div>
+          <div class="step-badge">IDF몰</div>
+        </div>
+        <div class="step-body">
+          <div style="font-size:11px;color:var(--muted);line-height:1.6;margin:0 0 8px;">
+            자사몰 상품 링크를 넣고 <b>추출</b>을 누르세요. 완료되면 아래에 색상 선택칸이 나타나며, 색상을 고르면 사진 4장이 자동 입력됩니다.
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:8px;">
+            <input disabled type="text" id="extractUrl" placeholder="https://idfmall.co.kr/product/detail.html?..." style="flex:1;font-family:'DM Mono',monospace;font-size:12px;"/>
+            <button disabled class="btn btn-sm" id="extractBtn">추출</button>
+          </div>
+          <div id="colorSelectWrap" style="display:none;margin:0 0 8px;">
+            <div class="color-picker">
+              <div class="color-chips" id="colorOptions" role="group" aria-label="상품 색상"></div>
+              <span class="color-name" id="selectedColorName">색상을 선택하세요</span>
+            </div>
+          </div>
+          <div id="extractStatus" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-height:18px;"></div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" id="step2">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">헤더 높이 (px)</div>
+        </div>
+        <div class="step-body">
+          <div class="split-row">
+            <span class="split-label">템플릿 상단 헤더 높이</span>
+            <input disabled class="split-input" id="splitPx" type="number" value="441" min="1" step="1"/>
+            <span class="split-unit">px</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" id="step3">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title">모델컷 URL</div>
+          <div class="step-badge">4장</div>
+        </div>
+        <div class="step-body">
+          <div class="url-rows">
+            <div class="url-row" id="row0">
+              <span class="url-tag">01</span>
+              <input disabled class="url-input" id="url0" type="text" placeholder="모델컷 1번 URL"/>
+              <div class="url-dot"></div>
+            </div>
+            <div class="url-row" id="row1">
+              <span class="url-tag">02</span>
+              <input disabled class="url-input" id="url1" type="text" placeholder="모델컷 2번 URL"/>
+              <div class="url-dot"></div>
+            </div>
+            <div class="url-row" id="row2">
+              <span class="url-tag">03</span>
+              <input disabled class="url-input" id="url2" type="text" placeholder="모델컷 3번 URL"/>
+              <div class="url-dot"></div>
+            </div>
+            <div class="url-row" id="row3">
+              <span class="url-tag">04</span>
+              <input disabled class="url-input" id="url3" type="text" placeholder="모델컷 4번 URL"/>
+              <div class="url-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" id="step4">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div class="step-title">저장 폴더 경로</div>
+          <div class="step-badge" id="folderBadge" style="display:none">저장됨</div>
+        </div>
+        <div class="step-body">
+          <div class="folder-row" id="folderRow">
+            <span style="font-size:13px;flex-shrink:0;">📁</span>
+            <input disabled class="folder-input" id="folderPath" type="text" placeholder="C:\Users\이름\Desktop\output"/>
+            <div class="folder-dot"></div>
+          </div>
+          <div class="field-hint">비워두면 다운로드 폴더 · 경로 입력 시 자동 저장됨</div>
+        </div>
+      </div>
+
+      <!-- 합성 버튼 -->
+      <button disabled class="btn btn-full" id="composeBtn" disabled>🚀 이미지 합성</button>
+
+      <!-- INFO -->
+      <div class="info-box">
+        <div class="info-row"><span class="info-num">01</span><span>모든 이미지 프록시 로드 (CORS 우회)</span></div>
+        <div class="info-row"><span class="info-num">02</span><span>입력한 헤더 높이 기준으로 잘라서 붙임</span></div>
+        <div class="info-row"><span class="info-num">03</span><span>모델컷 사이 · 푸터 위 여백 35px</span></div>
+        <div class="info-row"><span class="info-num">04</span><span>템플릿 파일명으로 JPG 저장</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="panel-right">
+    <div class="preview-header">
+      <span class="preview-label">미리보기</span>
+      <a class="btn-download" id="downloadBtn" >다운로드 JPG</a>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="preview-wrap">
+      <div class="preview-empty" id="previewEmpty">
+        <div class="preview-empty-icon">◫</div>
+        <div>URL을 입력하고<br/>합성하세요</div>
+      </div>
+      <canvas id="previewCanvas"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+</body>
+</html>

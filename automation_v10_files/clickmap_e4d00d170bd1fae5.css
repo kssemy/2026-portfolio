@@ -1,0 +1,63 @@
+.product-color-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.hex-color-control{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:7px;
+}
+
+.hex-color-preview{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  margin:0;
+  padding:3px;
+  border:1px solid #c9d0d8;
+  border-radius:7px;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);
+  cursor:pointer;
+}
+
+.product-color-fields input[type="text"]{
+  min-width:0;
+  height:42px;
+  margin:0;
+  padding:9px 10px;
+  font-family:Consolas,Monaco,monospace;
+  text-transform:lowercase;
+}
+
+.product-color-fields input[type="text"].invalid{
+  border-color:#c93434;
+  background:#fff2f2;
+}
+
+.product-color-help{
+  margin:7px 0 0;
+}
+
+.product-fetch{
+  margin-top:10px;
+  border-color:#b9c8e8;
+  background:#f3f7ff;
+  color:#1f4f9d;
+}
+
+.product-fetch-status{
+  min-height:18px;
+  margin:6px 0 2px;
+}
+
+.hotspot-plus{
+  background:var(--hotspot-fill,#fff);
+}
+
+@media(max-width:520px){
+  .product-color-fields{grid-template-columns:1fr}
+}

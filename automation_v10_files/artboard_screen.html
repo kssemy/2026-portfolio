@@ -1,0 +1,229 @@
+<!doctype html><html lang="ko"><head><meta name="viewport" content="width=device-width,initial-scale=1"><base href="https://artboard-studio.indongfn-1511.chatgpt.site/"><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"><style>
+:root {
+  --bg:#0e0e10; --s1:#161618; --s2:#1e1e21; --s3:#26262a;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#f0f0f2; --muted:#6e6e78; --muted2:#9898a4;
+  --accent:#4ec9b0; --accent2:#6ddfc8;
+  --success:#4ecb8d; --danger:#f07070; --r:12px; --r-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;}
+.app-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(14,14,16,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+}
+.app-title{font-size:15px;font-weight:600;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;}
+.app-title span{color:var(--accent);}
+.ab-badge{font-size:10px;background:rgba(78,201,176,0.15);color:var(--accent);border-radius:4px;padding:2px 8px;font-weight:500;}
+.main{max-width:860px;margin:0 auto;padding:28px 20px 60px;}
+.step{margin-bottom:12px;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;transition:border-color .2s;}
+.step:focus-within{border-color:var(--border2);}
+.step-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--s1);cursor:pointer;user-select:none;}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--s3);color:var(--muted2);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step.active .step-num{background:var(--accent);color:#000;}
+.step-title{font-size:13px;font-weight:500;flex:1;}
+.step-badge{font-size:11px;color:var(--muted);background:var(--s3);padding:2px 8px;border-radius:20px;}
+.step-body{padding:18px;background:var(--s2);border-top:1px solid var(--border);}
+input[type=text],input[type=url]{width:100%;background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 14px;outline:none;transition:border-color .2s;}
+input:focus{border-color:rgba(78,201,176,0.5);}
+input::placeholder{color:var(--muted);}
+.btn{background:var(--accent);border:none;border-radius:var(--r-sm);color:#000;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 20px;transition:background .15s,transform .1s;white-space:nowrap;}
+.btn:hover{background:var(--accent2);}
+.btn:active{transform:scale(.97);}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2);font-weight:400;}
+.btn-ghost:hover{background:var(--s3);color:var(--text);}
+.btn-danger{background:transparent;border:1px solid rgba(240,112,112,0.3);color:var(--danger);font-weight:400;}
+.btn-danger:hover{background:rgba(240,112,112,0.08);}
+.btn-sm{padding:7px 14px;font-size:12px;}
+.btn-full{width:100%;padding:15px;font-size:15px;border-radius:var(--r);}
+.color-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-bottom:24px;}
+.color-chip{width:40px;height:40px;border-radius:var(--r-sm);cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s;position:relative;flex-shrink:0;}
+.color-chip:hover{transform:scale(1.1);}
+.color-chip.selected{border-color:#6ddfc8;transform:scale(1.08);}
+.color-chip .check{position:absolute;top:3px;right:3px;width:18px;height:18px;background:rgba(0,80,60,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff !important;opacity:0;transition:opacity .15s;line-height:1;}
+.color-chip.selected .check{opacity:1;}
+.chip-label{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;white-space:nowrap;color:var(--muted);font-family:'DM Mono',monospace;pointer-events:none;}
+.assign-list{display:flex;flex-direction:column;gap:6px;}
+.assign-row{display:flex;align-items:center;gap:10px;background:var(--s3);border-radius:var(--r-sm);padding:8px 12px;border:1px solid var(--border);}
+.assign-preview{width:32px;height:32px;border-radius:6px;flex-shrink:0;cursor:pointer;border:1px solid rgba(255,255,255,0.1);}
+.assign-name{font-size:12px;font-family:'DM Mono',monospace;color:var(--muted2);min-width:90px;}
+.slot-select{background:var(--s2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 10px;outline:none;}
+.logo-group{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.logo-btn{background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--muted2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:12px;cursor:pointer;text-align:center;transition:all .2s;}
+.logo-btn.active{background:rgba(78,201,176,0.1);border-color:var(--accent);color:var(--accent);font-weight:600;}
+.ab-block{background:var(--s3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:10px;}
+.ab-block:last-child{margin-bottom:0;}
+.ab-block-title{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.ab-block-title .badge{background:rgba(78,201,176,0.1);color:var(--accent);border-radius:4px;font-size:10px;padding:1px 6px;}
+.field-label{font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:500;}
+.saved-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--success);margin-left:6px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.status{background:var(--s3);border-radius:var(--r-sm);font-size:12px;padding:12px 16px;color:var(--muted);min-height:42px;line-height:1.6;border:1px solid var(--border);margin-top:10px;}
+.status.ok{color:var(--success);border-color:rgba(78,203,141,0.2);}
+.status.err{color:var(--danger);border-color:rgba(240,112,112,0.2);}
+.hint{font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.6;}
+.hint b{color:var(--muted2);}
+.img-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.img-slot{border:2px dashed rgba(78,201,176,0.2);border-radius:var(--r-sm);padding:6px;text-align:center;background:var(--s3);cursor:pointer;position:relative;transition:border-color .15s,transform .1s;}
+.img-slot:hover{border-color:rgba(78,201,176,0.5);transform:scale(1.02);}
+.img-slot.sel-1{border:2px solid #4ec9b0;box-shadow:0 0 0 2px rgba(78,201,176,0.25);}
+.img-slot.sel-2{border:2px solid #6ddfc8;box-shadow:0 0 0 2px rgba(109,223,200,0.25);}
+.img-slot.sel-3{border:2px solid #9eeee0;box-shadow:0 0 0 2px rgba(158,238,224,0.25);}
+.img-slot img{width:100%;height:70px;object-fit:cover;border-radius:4px;display:block;}
+.img-slot-badge{position:absolute;top:5px;left:5px;background:#4ec9b0;color:#000;font-size:10px;font-weight:700;border-radius:3px;padding:1px 6px;display:none;}
+.img-slot.sel-1 .img-slot-badge,.img-slot.sel-2 .img-slot-badge,.img-slot.sel-3 .img-slot-badge{display:block;}
+.img-slot-name{font-size:9px;color:var(--muted);margin-top:4px;word-break:break-all;line-height:1.3;}
+.img-hint{font-size:11px;color:var(--muted2);margin-top:8px;padding:7px 12px;background:var(--s3);border-radius:var(--r-sm);border:1px solid var(--border);}
+.img-hint b{color:var(--accent);}
+
+@media(max-width:560px){.app-header{padding:12px;flex-wrap:wrap;gap:10px}.main{padding:18px 12px 40px}.app-title{font-size:14px}.two-col{grid-template-columns:1fr}.assign-row{flex-wrap:wrap}}
+
+.version-nav{display:flex;gap:6px;padding:5px;background:var(--s1);border:1px solid var(--border2);border-radius:10px;margin-bottom:18px}
+.version-nav a{flex:1;text-align:center;padding:12px 10px;border-radius:7px;color:var(--muted2);text-decoration:none;font-size:14px;font-weight:600}
+.version-nav a[aria-current="page"]{background:var(--accent);color:var(--bg)}
+.version-nav a:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.version-note{font-size:12px;color:var(--muted2);line-height:1.6;margin:0 0 18px}
+@media(max-width:560px){.app-header{padding:12px;flex-wrap:wrap;gap:10px}.main{padding:18px 12px 40px}.app-title{font-size:14px}.two-col{grid-template-columns:1fr}.assign-row{flex-wrap:wrap}}
+
+</style><style id="idf-studio-theme">
+:root{--bg:#0e0e10;--card:#1e1e21;--line:#343439;--text:#f0f0f2;--muted:#a1a1ac;--accent:#4ec9b0;--accent2:#6ddfc8;--s1:#161618;--s2:#1e1e21;--s3:#26262a;--border:#303035;--border2:#44444b;--muted2:#b4b4be;--danger:#f58f96;--success:#4ec9b0; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;font-size:14px;line-height:1.6}
+.idf-header{box-sizing:border-box;min-height:68px;height:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:var(--bg);border-bottom:1px solid var(--border);position:relative;z-index:100}
+.idf-brand{display:flex;align-items:center;gap:12px;min-width:0}.idf-mark{width:34px;height:34px;flex-shrink:0;display:grid;place-items:center;border:1px solid #4ec9b044;border-radius:9px;background:#4ec9b012;color:var(--accent)}.idf-mark svg{width:21px;height:21px;display:block}.idf-wordmark{font-size:13px;letter-spacing:.09em;font-weight:650;white-space:nowrap}.idf-divider{height:16px;width:1px;background:var(--border2);margin:0 2px}.idf-name{font-size:15px;font-weight:600;letter-spacing:-.3px;margin:0;line-height:1.5;color:var(--text)}
+.idf-header button{background:transparent;border:1px solid var(--border2);color:var(--muted2);border-radius:8px;padding:8px 13px;font:500 13px/1.5 inherit;min-width:0;height:auto;cursor:pointer}.idf-header button:hover{background:var(--s3);color:var(--text)}
+button,input,select,textarea{font-family:inherit}input,select,textarea{color-scheme:dark}input::placeholder,textarea::placeholder{color:#90909b}input[type=checkbox],input[type=radio],input[type=range]{accent-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.48}
+@media(max-width:600px){.idf-header{padding:12px 16px;gap:10px;flex-wrap:wrap}.idf-brand{gap:8px}.idf-wordmark{font-size:11px}.idf-name{font-size:14px}.idf-mark{width:30px;height:30px}}
+.main{max-width:960px;padding:26px 24px 60px}.step-title{font-size:14px;font-weight:600}.step-num,.step-badge,.ab-badge,.saved-badge,.chip-label,.img-slot-name{font-size:12px}.hint,.field-label,.img-hint,.ab-block-title{font-size:12px}.btn,input[type=text],input[type=url],.logo-btn,.slot-select{font-size:14px}.version-note{color:var(--muted)}.status{color:var(--muted2)}.step-header{padding:13px 18px}.step-body{padding:18px}.version-nav{border-color:var(--border2)}@media(max-width:560px){.main{padding:18px 16px 40px}}</style></head><body>
+<header class="idf-header"><div class="idf-brand"><span class="idf-mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="12" height="16" rx="2"></rect><path d="M19 7h2v13h-2M4 15l4-4 8 7"></path><circle cx="12" cy="8" r="1"></circle></svg></span><span class="idf-wordmark">IDF STUDIO</span><span class="idf-divider" aria-hidden="true"></span><h1 class="idf-name">썸네일 리사이징</h1></div><button disabled class="btn btn-sm btn-ghost">새 작업</button></header>
+
+<main class="main">
+<nav class="version-nav" aria-label="리사이징 버전"><a  aria-current="page">기존 버전</a><a >W컨셉 포함 버전</a></nav><p class="version-note">PSD 가이드 경로와 출력 폴더는 이 브라우저에서 버전별로 자동 저장됩니다.</p>
+
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+  <div class="step-header">
+    <div class="step-num">1</div>
+    <div class="step-title">상세페이지 URL &amp; 색상 추출</div>
+  </div>
+  <div class="step-body">
+    <div class="hint">idfmall 상품 URL을 붙여넣으면 <b>색상과 이미지를 동시에</b> 가져와요.</div>
+    <div style="display:flex;gap:8px">
+      <input disabled type="url" id="url-input" placeholder="https://idfmall.co.kr/product/detail.html?..." style="flex:1">
+      <button disabled class="btn" id="extract-btn">✦ 추출</button>
+    </div>
+    <div id="color-status" class="status">URL을 입력하고 추출 버튼을 누르세요</div>
+    <div id="img-section" style="display:none;margin-top:12px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+        🖼 추출된 이미지 <span id="img-badge" style="background:rgba(78,201,176,0.12);color:var(--accent2);border-radius:4px;font-size:10px;padding:1px 6px;"></span>
+        <span style="font-size:10px;color:var(--muted);font-weight:400;">클릭 순서대로 공통→SSF2→SSF3 입력</span>
+      </div>
+      <div class="img-grid" id="img-grid"></div>
+      <div class="img-hint" id="img-hint"><b>1번째</b> 클릭 → 공통 이미지 &nbsp;·&nbsp; <b>2번째</b> → SSF_02 &nbsp;·&nbsp; <b>3번째</b> → SSF_03</div>
+    </div>
+    <div id="color-all-btn" style="display:none;margin-top:8px">
+      <button disabled class="btn btn-sm btn-ghost" style="width:100%">✦ 전체 선택</button>
+    </div>
+    <div id="color-grid" class="color-grid"></div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="step2" style="display:none">
+  <div class="step-header">
+    <div class="step-num">2</div>
+    <div class="step-title">컬러 → 레이어 배치</div>
+    <div class="step-badge" id="color-count-badge">0개 선택</div>
+  </div>
+  <div class="step-body">
+    <div class="hint">색상 칩을 클릭하면 <b>1번부터 자동 배정</b>돼요.</div>
+    <div class="assign-list" id="assign-list"></div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px">
+      <input disabled type="color" id="inline-color-picker" value="#000000" style="width:40px;height:36px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--s3);cursor:pointer;padding:2px;">
+      <button disabled class="btn btn-sm btn-ghost">+ 추가하기</button>
+      <input disabled type="color" id="hidden-color-input" style="position:absolute;opacity:0;pointer-events:none;width:0;height:0">
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+  <div class="step-header">
+    <div class="step-num">3</div>
+    <div class="step-title">로고 선택</div>
+    <div class="step-badge" id="logo-badge">LIST</div>
+  </div>
+  <div class="step-body">
+    <div class="logo-group">
+      <button disabled class="logo-btn active" id="logo-list_logo">LIST</button>
+      <button disabled class="logo-btn" id="logo-sistina_logo">SISTINA</button>
+      <button disabled class="logo-btn" id="logo-shesmiss_logo">SHESMISS</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" id="step4">
+  <div class="step-header">
+    <div class="step-num">4</div>
+    <div class="step-title">아트보드 PSD &amp; 이미지 경로</div>
+    <div class="step-badge">경로 자동 저장</div>
+  </div>
+  <div class="step-body">
+    <div class="hint"><b>PSD 경로</b>는 자동 저장돼요. 이미지만 바꿔서 반복 작업 가능!<br>이미지는 <b>로컬 경로</b> 또는 <b>URL</b>(우클릭 → 이미지 주소 복사) 모두 가능해요.</div>
+
+    <div class="ab-block">
+      <div class="ab-block-title">📄 아트보드 PSD <span class="badge">1개 파일에 6개 아트보드</span></div>
+      <div class="field-label">PSD 경로 <span class="saved-badge" id="saved-psd" style="display:none">✓ 저장됨</span></div>
+      <input disabled type="text" id="psd" placeholder="아트보드_템플릿.psd 경로">
+    </div>
+
+    <div style="background:rgba(78,201,176,0.07);border:1.5px solid rgba(78,201,176,0.35);border-radius:var(--r-sm);padding:14px;margin-bottom:10px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+        🖼 공통 이미지
+        <span style="background:rgba(78,201,176,0.15);color:var(--accent);border-radius:4px;font-size:10px;padding:1px 7px;font-weight:500;">600 · P · SSF_01 · 1200 동일 적용</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">이미지 하나로 4개 아트보드에 자동으로 들어가요</div>
+      <input disabled type="text" id="img_common" placeholder="경로 또는 https://..." style="border-color:rgba(78,201,176,0.25);">
+    </div>
+
+    <div class="ab-block">
+      <div class="ab-block-title">🖼 SSF_02 / SSF_03 <span class="badge">1500×2000 · 별도 이미지</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div>
+          <div class="field-label">SSF_02 이미지</div>
+          <input disabled type="text" id="img_ssf2" placeholder="경로 또는 https://...">
+        </div>
+        <div>
+          <div class="field-label">SSF_03 이미지</div>
+          <input disabled type="text" id="img_ssf3" placeholder="경로 또는 https://...">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="step5">
+  <div class="step-header">
+    <div class="step-num">5</div>
+    <div class="step-title">출력 폴더</div>
+    <div class="step-badge" id="saved-output-badge" style="display:none">저장됨</div>
+  </div>
+  <div class="step-body">
+    <div class="hint">입력한 출력 경로는 계속 유지돼요. JSX 파일 자체는 브라우저의 다운로드 설정에 따라 저장됩니다.</div>
+    <input disabled type="text" id="output-dir" placeholder="C:\Users\...\Output">
+  </div>
+</div>
+
+<div style="height:16px"></div>
+<button disabled class="btn btn-full">🚀 JSX 스크립트 생성</button>
+<div id="gen-status" class="status">설정 완료 후 버튼을 누르세요</div>
+
+</main>
+
+
+<iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; visibility: hidden;"></iframe>
+</body></html>
